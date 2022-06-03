@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ImageMapper">
+ 	
+ 	
+	<resultMap id="imageSelectMap" type="image">
+		<result property="imgNo" 				column="img_no" 			jdbcType="NUMERIC"/>
+		<result property="contentsNo"			column="contents_no" 		jdbcType="NUMERIC" />
+		<result property="fileName" 			column="filename" 			jdbcType="VARCHAR" />
+		<result property="contentsFlag" 		column="contents_flag" 		jdbcType="VARCHAR" />
+		<result property="representFlag" 		column="represent_flag" 	jdbcType="NUMERIC" />
+		<result property="createdAt" 			column="created_at"		 	jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addImage"		parameterType="image" >
+	 	INSERT INTO IMAGE VALUES (seq_img_img_no.NEXTVAL, #{contentsNo}, #{fileName}, #{contentsFlag}, #{representFlag}, SYSTIMESTAMP)
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getImageList"	parameterType="image"	resultMap="imageSelectMap">
+		SELECT * FROM IMAGE 
+		WHERE contents_no = #{contentsNo} AND contents_flag = #{contentsFlag} 
+		ORDER BY represent_flag, created_at
+	 </select>
+	 
+</mapper>

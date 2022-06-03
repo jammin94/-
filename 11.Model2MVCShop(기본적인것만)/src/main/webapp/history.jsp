@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ page contentType="text/html; charset=EUC-KR" %>
+
+<html>
+<head>
+
+<title>열어본 상품 보기</title>
+
+</head>
+<body>
+	최근 본 상품
+<br>
+<br>
+<%
+	request.setCharacterEncoding("euc-kr");
+	response.setCharacterEncoding("euc-kr");
+	String history = null;
+	Cookie[] cookies = request.getCookies();
+	if (cookies!=null && cookies.length > 0) {
+		for (int i = 0; i < cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			System.out.println(cookie.getName());
+			if (cookie.getName().equals("history")) {
+				System.out.println("3");
+				history = cookie.getValue();
+			}
+		}
+		if (history != null) {
+			String[] h = history.split("!");
+			System.out.println("4");
+			for (int i = 0; i < h.length; i++) {
+				System.out.println("5");
+				if (!h[i].equals("null")) {
+%>
+<a href="/product/getProduct/<%=h[i]%>" target="rightFrame"><%=h[i]%></a>
+<br>
+<%
+				}
+			}
+		}
+	}
+%>
+
+</body>
+</html>
